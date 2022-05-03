@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProgramacaoViagem>
+    <Tipo>TRANSFERENCIA</Tipo>
+    <Rota>JDIRIO01</Rota>
+    <Tracao>HBN8389</Tracao>
+    <!--Reboque1>AUZ3663</Reboque1-->
+    <Reboque1>0007020</Reboque1>
+    <Reboque2></Reboque2>
+    <!--CpfMotorista>09703503845</CpfMotorista-->
+    <CpfMotorista>96241411772</CpfMotorista>
+    <DataSaida>02/05/2022</DataSaida>
+    <HoraSaida>10:00</HoraSaida>
+</ProgramacaoViagem>
+
+
+
+
+
