@@ -20,7 +20,7 @@ conexao = pyodbc.connect(dados_conexao)
 print("Conexão Bem Sucedida")
 
 cursor = conexao.cursor()
-cursor.execute('SELECT TOP 10 * FROM [dbo].[TB_COLETAS];')
+cursor.execute('SELECT TOP 1 * FROM [dbo].[TB_COLETAS];')
 
 for i in cursor:
     print(i)

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 import sys
 
 from InicializarAmbiente import inicia
@@ -26,3 +19,4 @@ except Exception as e:
 
 
 carrega_subcontratadas()
+

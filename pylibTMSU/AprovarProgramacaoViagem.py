@@ -45,7 +45,7 @@ class Aprova:
         try:
             time.sleep(0.3)
             # Realiza a seleção da data de saída
-            DRIVER.find_element(By.ID, 'btnConsultar').click()
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'btnConsultar'))).click()
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaField_1'))).click()
             Select(DRIVER.find_element(By.ID, 'ContainerConsultaField_1')).select_by_value('#DataSaida')
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaOperator_1'))).click()
@@ -115,11 +115,11 @@ class Aprova:
 
         try:
             # Clica no botão Consulta
-             time.sleep(5)
+             time.sleep(1)
              WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaSearch_1'))).click()
-             time.sleep(5)
-             WAIT.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="ContainerConsultaGrid"]/tbody/tr[2]'))).click()
-             time.sleep(3)
+             time.sleep(2)
+             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaGrid'))).click()
+             time.sleep(1)
         except Exception as e:
             print(f'Não foi possível selecionar um dos resultados da consulta!'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -129,8 +129,8 @@ class Aprova:
         try:
             # Insere Justificativa fixa no codigo
             WAIT.until(ec.element_to_be_clickable((By.ID, 'JustificativaViagem'))).click()
-            DRIVER.find_element(By.ID, 'JustificativaViagem').send_keys('    Justificativa teste automatizado 123')            
-            time.sleep(3)
+            DRIVER.find_element(By.ID, 'JustificativaViagem').send_keys('    Justificativa teste automatizado 123')
+            time.sleep(1)
         except Exception as e:
             print(f'Erro ao inserir Justificativa'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -139,31 +139,36 @@ class Aprova:
 
         try:
             # Confirma a aprovação de viagem
-            if DRIVER.find_element(By.ID, 'btnAprovar').is_displayed():
+            btnAprovar = WAIT.until(ec.visibility_of_element_located((By.ID, 'btnAprovar')))
+            if btnAprovar.is_displayed():
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'btnAprovar'))).click()
                 time.sleep(6)
+
             else:
                 pass
         except Exception as e:
-            print(f'Erro ao confirmar'
+            print(f'Erro ao Aprovar'
               f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
 
         try:
             # Pop de confirmação
-            time.sleep(3)
-            if DRIVER.find_element(By.ID, 'btnConfirmarAcao').is_displayed():
-                WAIT.until(ec.element_to_be_clickable((By.ID, 'btnConfirmarAcao'))).click()
-                time.sleep(2)
-                WAIT.until(ec.element_to_be_clickable((By.ID, 'btnConfirmarAcao'))).click()
+            time.sleep(1)
+            btnAfirmacao = DRIVER.find_element(By.ID, 'btnConfirmarAcao')
+            if btnAfirmacao.is_displayed():
+                for i in range(2):
+                    WAIT.until(ec.element_to_be_clickable((By.ID, 'btnConfirmarAcao'))).click()
+                    time.sleep(1)
                 time.sleep(6)
 
             else:
                 pass
         except Exception as e:
-            print(f'Erro ao confirmar'
+            print(f'Erro ao Confirmar'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
             # driver.quit()
             # sys.exit()
 
-#
+
 aprova = Aprova()
+
+

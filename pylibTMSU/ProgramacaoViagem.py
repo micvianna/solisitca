@@ -70,13 +70,13 @@ class CarregarProgramacao:
                 prog = handle
                 DRIVER.switch_to.window(prog)
                 DRIVER.maximize_window()
-        time.sleep(2)
+        time.sleep(1)
 
     def criar_programacao(self):
         # Função para inserir os dados na tela, clicando nos campos e inserindo dados de variaveis
         try:
             WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoTipoOperacao'))).click()
-            select = Select(DRIVER.find_element_by_id('CodigoTipoOperacao'))
+            select = Select(DRIVER.find_element(By.ID, 'CodigoTipoOperacao'))
             select.select_by_visible_text(self.tipo)
         except Exception as e:
             print(f'Erro ao selecionar o Tipo de Operação'
@@ -86,8 +86,10 @@ class CarregarProgramacao:
         try:
             #  Informa código do Tipo de Operação
             WAIT.until(ec.element_to_be_clickable((By.ID, 'Rota'))).click()
-            DRIVER.find_element(By.ID, 'Rota').send_keys(self.rota)
-            WAIT.until(ec.element_to_be_clickable((By.ID, 'ui-id-3'))).click()
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'Rota'))).send_keys(self.rota)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'Rota'))).send_keys(Keys.ARROW_DOWN)
+            time.sleep(0.5)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'Rota'))).send_keys(Keys.ENTER)
         except Exception as e:
             print(f'Erro ao selecionar a Rota'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -96,7 +98,7 @@ class CarregarProgramacao:
         try:
             #  Informa Data de Saída
             WAIT.until(ec.element_to_be_clickable((By.ID, 'DataSaida'))).click()
-            DRIVER.find_element(By.ID, 'DataSaida').send_keys(self.data_saida)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'DataSaida'))).send_keys(self.data_saida)
         except Exception as e:
             print(f'Erro ao selecionar a Data Saida'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -105,7 +107,7 @@ class CarregarProgramacao:
         try:
             #  Informa Hora de Saída
             WAIT.until(ec.element_to_be_clickable((By.ID, 'HoraSaida'))).click()
-            DRIVER.find_element(By.ID, 'HoraSaida').send_keys(self.hora_saida)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'HoraSaida'))).send_keys(self.hora_saida)
         except Exception as e:
             print(f'Erro ao selecionar a Hora Saida'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -113,10 +115,10 @@ class CarregarProgramacao:
             # sys.exit()
         try:
             # Insere uma observação fixa no codigo
-            time.sleep(2)
+            time.sleep(0.5)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'Observacao'))).click()
             time.sleep(0.5)
-            DRIVER.find_element(By.ID, 'Observacao').send_keys('Observação teste automatizado')
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'Observacao'))).send_keys('Observação teste automatizado')
         except Exception as e:
             print(f'Erro ao inserir Observações'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -124,8 +126,10 @@ class CarregarProgramacao:
             # sys.exit()
         try:
             # Insere Justificativa fixa no codigo
+            time.sleep(0.5)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'JustificativaViagem'))).click()
-            DRIVER.find_element(By.ID, 'JustificativaViagem').send_keys('Justificativa teste automatizado')
+            time.sleep(0.5)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'JustificativaViagem'))).send_keys('Justificativa teste automatizado')
         except Exception as e:
             print(f'Erro ao inserir Justificativa'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -137,12 +141,11 @@ class CarregarProgramacao:
             WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoTipoRecurso'))).click()
             Select(DRIVER.find_element(By.ID, 'CodigoTipoRecurso')).select_by_value('1')
             WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).click()
-            DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(self.tracao)
-            DRIVER.find_element(By.ID, 'CodigoRecurso')
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(self.tracao)
             time.sleep(0.5)
-            DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(Keys.ARROW_DOWN)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(Keys.ARROW_DOWN)
             time.sleep(0.5)
-            DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(Keys.ENTER)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(Keys.ENTER)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'btnAdicionarRecurso'))).click()
         except Exception as e:
             print(f'Erro ao selecionar a Tração'
@@ -156,12 +159,12 @@ class CarregarProgramacao:
             WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoTipoRecurso'))).click()
             Select(DRIVER.find_element(By.ID, 'CodigoTipoRecurso')).select_by_visible_text('Reboque')
             WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).click()
-            DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(self.reboque)
-            DRIVER.find_element(By.ID, 'CodigoRecurso')
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(self.reboque)
+            #DRIVER.find_element(By.ID, 'CodigoRecurso')
             time.sleep(0.5)
-            DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(Keys.ARROW_DOWN)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(Keys.ARROW_DOWN)
             time.sleep(0.5)
-            DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(Keys.ENTER)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(Keys.ENTER)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'btnAdicionarRecurso'))).click()
         except Exception as e:
             print(f'Erro ao selecionar o código do reboque'
@@ -176,14 +179,13 @@ class CarregarProgramacao:
                 pass
             else:
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoTipoRecurso'))).click()
-                Select(DRIVER.find_element_by_id('CodigoTipoRecurso')).select_by_visible_text('Motorista')
+                Select(DRIVER.find_element(By.ID, 'CodigoTipoRecurso')).select_by_visible_text('Motorista')
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).click()
-                DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(self.motorista)
-                DRIVER.find_element(By.ID, 'CodigoRecurso')
+                WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(self.motorista)
                 time.sleep(0.5)
-                DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(Keys.ARROW_DOWN)
+                WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(Keys.ARROW_DOWN)
                 time.sleep(0.5)
-                DRIVER.find_element(By.ID, 'CodigoRecurso').send_keys(Keys.ENTER)
+                WAIT.until(ec.element_to_be_clickable((By.ID, 'CodigoRecurso'))).send_keys(Keys.ENTER)
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'btnAdicionarRecurso'))).click()
         except Exception as e:
             print(f'Erro na inclusão do motorista'
@@ -196,15 +198,17 @@ class CarregarProgramacao:
 
             WAIT.until(ec.element_to_be_clickable((By.ID, 'btnIncluir'))).click()
             time.sleep(5)
-
-            if DRIVER.find_element(By.XPATH, '//*[@id="btnConfirmarAcao"]').is_displayed():
+            if WAIT.until(ec.visibility_of_element_located((By.XPATH, '//*[@id="btnConfirmarAcao"]'))).is_displayed():
+                initial_handle_count = len(driver.window_handles)
                 for i in range(2):
                     DRIVER.find_element(By.XPATH, '//*[@id="btnConfirmarAcao"]').click()
-                    time.sleep(1)
-                time.sleep(5)
+                    time.sleep(0.5)
+                time.sleep(3)
+                new_handles = driver.window_handles
+                while len(new_handles) == initial_handle_count:
+                    new_handles = driver.window_handles
             else:
                 pass
-
         except Exception as e:
             print(f'Não foi possivel realizar a confirmação da escolha!'
                   f'\\nOcorreu algo inesperdado -----> {str(e.__doc__)}')

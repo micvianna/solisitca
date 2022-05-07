@@ -59,7 +59,7 @@ class LoginIn:
         try:
             driver.maximize_window()  # mudar o zoom o
             driver.get(self.url)
-            time.sleep(1)
+            time.sleep(0.5)
         except Exception as e:
             print(f'Não foi incializado o Navegador'
                   f'Ocorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -126,7 +126,12 @@ class FinalizandoAmbiente:
         driver.quit()
 
 
-driver = webdriver.Edge(executable_path="../bin/msedgedriver.exe")
+ieOptions = webdriver.IeOptions()
+ieOptions.add_additional_option("ie.edgechromium", True)
+ieOptions.add_additional_option("ie.edgepath", 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe')
+driver = webdriver.Ie(executable_path=r'../bin/IEDriverServer.exe', options=ieOptions)
+
+# driver = webdriver.Edge(executable_path="../bin/msedgedriver.exe")
 wait = WebDriverWait(driver, 5, poll_frequency=0.5)
 inicia = LoginIn()
 logoff = FinalizandoAmbiente()

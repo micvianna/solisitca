@@ -27,3 +27,5 @@ except Exception as e:
     print(f'Não foi possivel executar esse script -> Programacao.py!'
           f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
     sys.exit()
+
+
