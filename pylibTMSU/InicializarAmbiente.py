@@ -81,6 +81,8 @@ class LoginIn:
             driver.find_element(By.ID, 'selFiliais').send_keys(self.filial)
             driver.find_element(By.ID, 'selFiliais').send_keys(Keys.ENTER)
             driver.find_element(By.ID, 'btnLogin').click()
+            window = driver.window_handles[0]
+            print('first page Login ', driver.current_window_handle)
             # time.sleep(3)
         except Exception as e:
             print(f'Nome do Usuário ou Senha invalidos, revise-os'
@@ -127,11 +129,14 @@ class FinalizandoAmbiente:
 
 
 ieOptions = webdriver.IeOptions()
+
 ieOptions.add_additional_option("ie.edgechromium", True)
-ieOptions.add_additional_option("ie.edgepath", 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe')
+# ieOptions.ensure_clean_session = True
+ieOptions.ignore_protected_mode_settings = True
+ieOptions.add_additional_option("ie.edgepath", 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')
 driver = webdriver.Ie(executable_path=r'../bin/IEDriverServer.exe', options=ieOptions)
 
 # driver = webdriver.Edge(executable_path="../bin/msedgedriver.exe")
-wait = WebDriverWait(driver, 5, poll_frequency=0.5)
+wait = WebDriverWait(driver, 15, poll_frequency=0.5)
 inicia = LoginIn()
 logoff = FinalizandoAmbiente()

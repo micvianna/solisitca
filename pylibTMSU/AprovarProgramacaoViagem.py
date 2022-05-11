@@ -167,6 +167,17 @@ class Aprova:
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
             # driver.quit()
             # sys.exit()
+        try:
+            print(DRIVER.current_url)
+            DRIVER.close()
+
+            time.sleep(5)
+
+
+            # DRIVER.switch_to.window(DRIVER.window_handles[0])
+
+        except Exception as e:
+            print('Não fechou a tela de Programação de Viagem')
 
 
 aprova = Aprova()

@@ -34,6 +34,8 @@ print(javaScript.__contains__(''))
 #to close the browser
 #driver.quit()
 """
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -43,8 +45,30 @@ ie_options.attach_to_edge_chrome = True
 ie_options.edge_executable_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 
 driver = webdriver.Ie(options=ie_options)
+# driver = webdriver.Ie()
+# driver = webdriver.Edge(executable_path='../bin/msedgedriver.exe')
 
-driver.get("http://www.bing.com")
-elem = driver.find_element(By.ID, 'sb_form_q')
-elem.send_keys('WebDriver' + Keys.RETURN)
+driver.get("https://the-internet.herokuapp.com/windows")
+#identify element
+driver.find_element(By.LINK_TEXT, "Click Here").click()
 
+#obtain window handle of browser in focus
+p = driver.current_window_handle
+#obtain parent window handle
+parent = driver.window_handles[0]
+#obtain browser tab window
+chld = driver.window_handles[1]
+#switch to browser tab
+driver.switch_to.window(chld)
+print("Page title for browser tab:")
+print(driver.title)
+#close browser tab window
+time.sleep(5)
+driver.close()
+#switch to parent window
+driver.switch_to.window(parent)
+print("Page title for parent window:")
+print(driver.title)
+#close browser parent window
+time.sleep(5)
+driver.close()

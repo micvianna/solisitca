@@ -198,17 +198,10 @@ class CarregarProgramacao:
 
             WAIT.until(ec.element_to_be_clickable((By.ID, 'btnIncluir'))).click()
             time.sleep(5)
-            if WAIT.until(ec.visibility_of_element_located((By.XPATH, '//*[@id="btnConfirmarAcao"]'))).is_displayed():
-                initial_handle_count = len(driver.window_handles)
-                for i in range(2):
-                    DRIVER.find_element(By.XPATH, '//*[@id="btnConfirmarAcao"]').click()
-                    time.sleep(0.5)
-                time.sleep(3)
-                new_handles = driver.window_handles
-                while len(new_handles) == initial_handle_count:
-                    new_handles = driver.window_handles
-            else:
-                pass
+            WAIT.until(ec.visibility_of_element_located((By.XPATH, '//*[@id="btnConfirmarAcao"]'))).click()
+            time.sleep(0.5)
+            WAIT.until(ec.visibility_of_element_located((By.XPATH, '//*[@id="btnConfirmarAcao"]'))).click()
+            time.sleep(0.5)
         except Exception as e:
             print(f'Não foi possivel realizar a confirmação da escolha!'
                   f'\\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -216,15 +209,16 @@ class CarregarProgramacao:
         # sys.exit()
 
         try:
-            if DRIVER.find_element(By.XPATH, '/html/body/div[7]/div/div/div[1]/div/div[1]/button').is_displayed():
-                DRIVER.find_element(By.XPATH, '/html/body/div[7]/div/div/div[1]/div/div[1]/button').click()
+            btn = WAIT.until(ec.element_to_be_clickable((By.XPATH, '/html/body/div[7]/div/div/div[1]/div/div[1]/button')))
+            if btn.is_displayed():
+                btn.click()
             else:
                 pass
+
         except Exception as e:
             print('')
                   # f'\\nOcorreu algo inesperdado -----> {str(e)}')
         # driver.quit()
         # sys.exit()
-
 
 programacao = CarregarProgramacao()

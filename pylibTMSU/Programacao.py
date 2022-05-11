@@ -21,8 +21,8 @@ try:
     def criar_programacao_viagem():
         inicia.abrir_browser()
         inicia.realizar_login()
-        programacao.carrega_tela()
-        programacao.criar_programacao()
+        # programacao.carrega_tela()
+        # programacao.criar_programacao()
 except Exception as e:
     print(f'Não foi possivel executar esse script -> Programacao.py!'
           f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
