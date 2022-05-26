@@ -9,19 +9,22 @@ Histórico: 12/04/2022: Desenvolvido chamada do Browser e a realização de logi
            18/04/2022: Inserida classe LoginIn e reestruturada as funções
            20/04/2022: Adicionado mensagens de tratamento quando houver erros
                        Inserida classe FinalizandoAmbiente
+           17/05/2022: Atualizada a função: realizar_logoff
+
 """
 
 import sys
 import time
 
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
-from LerProgramacaoViagem import CarregarXML
+from CarregarXMLConexao import CarregarXMLConexao
 
 """
 ---- Chamada do Browser na variavel 'driver' ------
@@ -32,10 +35,10 @@ a linha.
 Microsoft Edge
 # driver = webdriver.Edge(executable_path=r'../bin/msedgedriver.exe')
 """
+
+
 # variavel crida para chamar o arquvivo 'LerProgramacaoViagem'
 # onde foi importado um modulo
-
-xml = CarregarXML()
 
 
 class LoginIn:
@@ -44,7 +47,8 @@ class LoginIn:
     """
 
     def __init__(self):
-        # variaveis referencidas do 'LerProgramacaoViagem '
+        # variaveis referencidas do
+        xml = CarregarXMLConexao()
         self.driver = driver
         self.url = xml.url_ambiente()
         self.usuario = xml.usuario_login()
@@ -57,15 +61,19 @@ class LoginIn:
         pegando a url(self.url) que está no xml
         """
         try:
-            driver.maximize_window()  # mudar o zoom o
-            driver.get(self.url)
-            time.sleep(0.5)
+            # url = f'http://nsac0001.expresso.corp/NewSitex/Login.aspx'
+            # Maximila o driver
+            driver.maximize_window()
+            # acessa a url
+            driver.get(f'{self.url}NewSitex/Login.aspx')
+            # aguarda em milesimos
+            time.sleep(1.5)
         except Exception as e:
             print(f'Não foi incializado o Navegador'
-                  f'Ocorreu algo inesperdado -----> {str(e.__doc__)}')
+                  f' Ocorreu algo inesperdado -----> {str(e.__doc__)}')
             # sys.exit()
 
-    def realizar_login(self):
+    def realizar_login(self, filial=''):
         """
         Função criada para logar no TMSU
         usuario: nome do usuario é passado por parametro indicado quando a função é invocada
@@ -73,16 +81,23 @@ class LoginIn:
         filial: filial é passda por parametro indicado quando a função é invocada
         """
         try:
-
+            if filial == '':
+                filial = self.filial
+            else:
+                pass
             wait.until(ec.element_to_be_clickable((By.ID, 'txtUsuario')))
-            driver.find_element(By.ID, 'txtUsuario').send_keys(self.usuario)
+            # insere o usuário que está no arquivo Conexão XML
+            user = driver.find_element(By.ID, 'txtUsuario')
+            user.send_keys(self.usuario)
             wait.until(ec.element_to_be_clickable((By.ID, 'txtSenha')))
+            # insere o password que está no arquivo Conexão XML
             driver.find_element(By.ID, 'txtSenha').send_keys(self.password)
-            driver.find_element(By.ID, 'selFiliais').send_keys(self.filial)
+            # insere a filial que está no arquivo Conexão XML
+            driver.find_element(By.ID, 'selFiliais').send_keys(filial)
             driver.find_element(By.ID, 'selFiliais').send_keys(Keys.ENTER)
+            # clica no botão login
             driver.find_element(By.ID, 'btnLogin').click()
-            window = driver.window_handles[0]
-            print('first page Login ', driver.current_window_handle)
+            # print('Nome da page: ', atual)
             # time.sleep(3)
         except Exception as e:
             print(f'Nome do Usuário ou Senha invalidos, revise-os'
@@ -90,32 +105,41 @@ class LoginIn:
             # driver.close()
             # sys.exit()
 
-
-class FinalizandoAmbiente:
-    """
-    Criada class para finalizar o ambiente
-    1º Realizando logoff
-    2º fechando o browser
-    """
-
     def realizar_logoff(self):
         """
         Quando está em outra aba no TMSU é trocada para
         a aba onde driver vai achar o botão sair
         """
-        main_page = driver.current_window_handle
-        for handle in driver.window_handles:
-            if handle != main_page:
-                sair = handle
-                driver.switch_to.window(sair)
         try:
-            time.sleep(2)
-            driver.find_element(By.ID, 'EJCabecalho1_EJMenu1__skmMenu-menuItem012').click()
-            time.sleep(0.2)
-            Alert(driver).accept()
-            time.sleep(0.2)
-            Alert(driver).accept()
-            time.sleep(0.5)
+            # Alterna para a janela principal
+            driver.switch_to.window(driver.window_handles[0])
+            # Alterna para o frame
+            driver.switch_to.parent_frame()
+            # verifica se o menu está visivel
+            menu = wait.until(ec.all_of(By.CSS_SELECTOR, '#EJCabecalho1_EJMenu1__skmMenu'))
+            if menu.is_displayed():
+                if driver.find_element(By.CSS_SELECTOR, '#EJCabecalho1_EJMenu1__skmMenu').is_displayed():
+                    print('Fazendo Logoff')
+                    time.sleep(1)
+                    acao = ActionChains(driver)
+                    driver.find_element(By.CSS_SELECTOR, '#EJCabecalho1_EJMenu1__skmMenu')
+                    time.sleep(1)
+                    submenu = wait.until(
+                        ec.element_to_be_clickable(
+                            (By.ID, 'EJCabecalho1_EJMenu1__skmMenu-menuItem009')))
+                    acao.click(submenu).perform()
+                    time.sleep(2)
+                    # driver.switch_to.frame('Teste')
+                    Alert(driver).accept()
+                    time.sleep(0.2)
+                    Alert(driver).accept()
+                    time.sleep(0.5)
+                    time.sleep(1)
+                else:
+                    print('Não fez logoff corretamente')
+                    driver.quit()
+            else:
+                pass
         except Exception as e:
             print(f'Logoff não realizado'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -128,15 +152,21 @@ class FinalizandoAmbiente:
         driver.quit()
 
 
+"""
+#########
+Configurações para colocar o Edge em modo IE
+#########
 ieOptions = webdriver.IeOptions()
-
 ieOptions.add_additional_option("ie.edgechromium", True)
-# ieOptions.ensure_clean_session = True
+ieOptions.ensure_clean_session = True
 ieOptions.ignore_protected_mode_settings = True
 ieOptions.add_additional_option("ie.edgepath", 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')
-driver = webdriver.Ie(executable_path=r'../bin/IEDriverServer.exe', options=ieOptions)
+#########
+"""
 
-# driver = webdriver.Edge(executable_path="../bin/msedgedriver.exe")
+# Descomentando a linha de baixo faz a chamada a do Internet Explorer (Modo Ie)
+# driver = webdriver.Ie(executable_path=r'../bin/IEDriverServer.exe', options=ieOptions)
+driver = webdriver.Edge(executable_path="../bin/msedgedriver.exe")
 wait = WebDriverWait(driver, 15, poll_frequency=0.5)
 inicia = LoginIn()
-logoff = FinalizandoAmbiente()
+

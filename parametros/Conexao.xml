@@ -8,8 +8,8 @@
     </Usuario>
     <Ambiente>
         <Navegador>Edge</Navegador>
-        <URL_Aplicacao>http://nshm0001.expresso.corp/NewSitex/Login.aspx</URL_Aplicacao>
+        <URL_Aplicacao>http://nshm0001.expresso.corp/</URL_Aplicacao>
         <FDQN_BD>ACDB0002.expresso.corp</FDQN_BD>
-        <Filial_login>401</Filial_login>
+        <Filial_login></Filial_login>
     </Ambiente>
 </Conexao>

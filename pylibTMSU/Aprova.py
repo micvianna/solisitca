@@ -21,10 +21,9 @@ from Viagens import viagem
 try:
     def aprovar_programacao_viagem():
 
-        # aprova.realizar_pesquisa()
+        aprova.realizar_pesquisa()
         viagem.carrega_tela_viagens()
-        # logoff.realizar_logoff()
-        # logoff.fechar_browser()
+        logoff.fechar_browser()
 
 except Exception as e:
     print(f'Não foi possivel executar esse script -> Aprova.py!'

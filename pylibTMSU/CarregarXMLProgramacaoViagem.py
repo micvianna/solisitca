@@ -8,30 +8,27 @@ Responsavel: Michel Viana
 
 Histórico: 11/04/2022: criação das funções para leitura do arquivo XML
            12/04/2022: alterado script para pegar dados do banco de dados
-           18/04/2022 - Inserida classe CarregarXML e reestruturada as funções
+           18/04/2022: Inserida classe CarregarXML e reestruturada as funções
            22/04/2022: Alterado a variavel PATH com o caminho relativo
+           23/05/2022: Desmembrada funções e variaveis para outros arquivos, mantendo
+                       este aquivo com informações para Programação de Viagem
 """
 
 from bs4 import BeautifulSoup
 
-PATH = r'..//parametros'
-
-with open(f'{PATH}\\ProgramacaoViagem.xml', 'r') as f:
-    data = f.read()
-bs_data = BeautifulSoup(data, "xml")
-
-with open(f'{PATH}\\Conexao.xml', 'r') as f:
-    data = f.read()
-bs_conec = BeautifulSoup(data, "xml")
 
 
-class CarregarXML:
+
+class CarregarXMLProgramacaoViagem:
+
 
     def __init__(self):
-        self.usuario = bs_conec.find('Login').text
-        self.password = bs_conec.find('Senha').text
-        self.url = bs_conec.find('URL_Aplicacao').text
-        self.filial = bs_conec.find('Filial_login').text
+        # XML Programação de Viagem
+        PATH = r'..//parametros'
+
+        with open(f'{PATH}\\ProgramacaoViagem.xml', 'r') as f:
+            data = f.read()
+        bs_data = BeautifulSoup(data, "xml")
         self.tipo = bs_data.find('Tipo').text
         self.rota = bs_data.find('Rota').text
         self.tracao = bs_data.find('Tracao').text
@@ -40,29 +37,6 @@ class CarregarXML:
         self.reboque_1 = bs_data.find('Reboque1').text
         self.reboque_2 = bs_data.find('Reboque2').text
         self.cpf_motorista = bs_data.find('CpfMotorista').text
-
-        # conexão do banco de dados
-
-        self.navegador = bs_conec.find('Navegador').text
-        self.database = bs_conec.find('FDQN_BD').text
-        self.user_db = bs_conec.find('Login_BD').text
-        self.password_db = bs_conec.find('Senha_BD').text
-
-    def usuario_login(self):
-        # faz chamada do nome do usuário no XML
-        return self.usuario
-
-    def password_login(self):
-        # faz chamada do password no XML
-        return self.password
-
-    def url_ambiente(self):
-        # faz chamada da url que está no XML de conexão
-        return self.url
-
-    def filial_login(self):
-        # faz chamada da filial no arquivo conexao.XML
-        return self.filial
 
     def programacao_viagem_tipo(self):
         # faz chamada do tipo no XML
@@ -96,23 +70,7 @@ class CarregarXML:
         # faz chamada do cpf do motorista no XML
         return self.cpf_motorista
 
-    # abaixo conexão com o XML do banco de dados
 
-    def navegador(self):
-        # faz chamada do Navegador que está no XML ()
-        return self.navegador
-
-    def conexao_database(self):
-        # faz chamada do banco do SQL que está no XML ()
-        return self.database
-
-    def conexao_user_db(self):
-        # faz chamada user do SQL que está no XML ()
-        return self.user_db
-
-    def conexao_passw_db(self):
-        # faz chamada password do SQL que está no XML ()
-        return self.password_db
+programacao_viagem_xml = CarregarXMLProgramacaoViagem()
 
 
-inicio = CarregarXML()

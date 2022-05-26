@@ -1,18 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ProgramacaoViagem>
-    <Tipo>TRANSFERENCIA</Tipo>
+    <!--Tipo>TRANSFERENCIA</Tipo-->
+    <Tipo>ENTREGA DIRETA</Tipo>
+    <!--Tipo>ENTREGA / COLETA</Tipo-->
     <Rota>JDIRIO01</Rota>
-    <Tracao>QOH7775</Tracao>
-    <!--Reboque1>AUZ3663</Reboque1-->
-    <Reboque1>0007025</Reboque1>
-    <Reboque2></Reboque2>
-    <!--CpfMotorista>09703503845</CpfMotorista-->
-    <CpfMotorista>30386799687</CpfMotorista>
-    <DataSaida>10/05/2022</DataSaida>
+    <Tracao>HJF7473</Tracao>
+    <Reboque1>0007027</Reboque1>
+    <Reboque2>0</Reboque2>
+    <CpfMotorista>02242272977</CpfMotorista>
+    <DataSaida>24/05/2022</DataSaida>
     <HoraSaida>20:00</HoraSaida>
 </ProgramacaoViagem>
-
-
-
-
-

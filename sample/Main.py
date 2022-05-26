@@ -11,12 +11,11 @@ Histórico: 20/04/2022: Criação do Script Main
                               criar_programacao_viagem()
                             aprovar_programacao_viagem()
 """
-import Programacao
+from sample import Programacao
 import Aprova
-# import Manifesto
 
 
 Programacao.criar_programacao_viagem()
 Aprova.aprovar_programacao_viagem()
-# Manifesto.sub()
+
 

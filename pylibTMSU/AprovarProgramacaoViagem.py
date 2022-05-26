@@ -21,9 +21,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import Select
 
-
 from InicializarAmbiente import driver, wait
-from LerProgramacaoViagem import CarregarXML
+from CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
 
 # Constantes criadas
 DRIVER = driver
@@ -34,14 +33,14 @@ class Aprova:
 
     def __init__(self):
 
-        lpv = CarregarXML()
+        lpv = CarregarXMLProgramacaoViagem()
         self.rota = lpv.programacao_viagem_rota()
         self.data_saida = lpv.programacao_viagem_data_saida()
         self.tracao = lpv.programacao_viagem_tracao()
-        self.reboque = lpv.reboque_1
-        self.motorista = lpv.cpf_motorista
+        self.reboque = lpv.programacao_viagem_reboque1()
+        self.motorista = lpv.programacao_viagem_cpf_motorista()
 
-    def realizar_pesquisa(self):
+    def realizar_pesquisa_confirma(self):
         try:
             time.sleep(0.3)
             # Realiza a seleção da data de saída
@@ -60,6 +59,7 @@ class Aprova:
             # sys.exit()
 
         try:
+            # Rota
             # Inserindo a rota na pesquisa
             time.sleep(0.3)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaField_2'))).click()
@@ -69,15 +69,14 @@ class Aprova:
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaValue_2'))).click()
             DRIVER.find_element(By.ID, 'ContainerConsultaValue_2').send_keys(self.tracao)
             DRIVER.find_element(By.ID, 'ContainerConsultaAdd_2').click()
-
-            # Rota
         except Exception as e:
             print(f'Não conseguiu informar o valor do campo Rota'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
-            #driver.quit()
+            # driver.quit()
             # sys.exit()
 
         try:
+            # Reboque
             # Inserindo o reboque na pesquisa
             time.sleep(0.3)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaField_3'))).click()
@@ -88,7 +87,6 @@ class Aprova:
             DRIVER.find_element(By.ID, 'ContainerConsultaValue_3').send_keys(self.reboque)
             DRIVER.find_element(By.ID, 'ContainerConsultaAdd_3').click()
 
-            # Reboque
         except Exception as e:
             print(f'Não conseguiu informar o valor do campo Reboque'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -96,6 +94,7 @@ class Aprova:
             # sys.exit()
 
         try:
+            # Motorista
             # Inserindo o Motorista na pesquisa
             time.sleep(0.3)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaField_4'))).click()
@@ -105,21 +104,19 @@ class Aprova:
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaValue_4'))).click()
             DRIVER.find_element(By.ID, 'ContainerConsultaValue_4').send_keys(self.motorista)
 
-            # Motorista
         except Exception as e:
             print(f'Não conseguiu informar o valor do campo Motorista'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
             # driver.quit()
             # sys.exit()
 
-
         try:
             # Clica no botão Consulta
-             time.sleep(1)
-             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaSearch_1'))).click()
-             time.sleep(2)
-             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaGrid'))).click()
-             time.sleep(1)
+            time.sleep(1)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaSearch_1'))).click()
+            time.sleep(2)
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaGrid'))).click()
+            time.sleep(1)
         except Exception as e:
             print(f'Não foi possível selecionar um dos resultados da consulta!'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -143,12 +140,11 @@ class Aprova:
             if btnAprovar.is_displayed():
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'btnAprovar'))).click()
                 time.sleep(6)
-
             else:
                 pass
         except Exception as e:
             print(f'Erro ao Aprovar'
-              f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
+                  f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
 
         try:
             # Pop de confirmação
@@ -168,18 +164,12 @@ class Aprova:
             # driver.quit()
             # sys.exit()
         try:
-            print(DRIVER.current_url)
-            DRIVER.close()
-
+            print('')
             time.sleep(5)
-
-
-            # DRIVER.switch_to.window(DRIVER.window_handles[0])
-
+            # DRIVER.switch_to.window(DRIVER.)
         except Exception as e:
+            print(e)
             print('Não fechou a tela de Programação de Viagem')
 
 
 aprova = Aprova()
-
-

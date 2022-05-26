@@ -10,8 +10,6 @@ print('Depois ', amanha, datetime.time(hour=0, minute=0))
 hora = datetime.timedelta(hours=4)
 print(hora)
 
-
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import time
@@ -33,42 +31,65 @@ print(javaScript.__contains__(''))
 # driver.execute_script(javaScript)
 #to close the browser
 #driver.quit()
+
+f = open("../parametros/ids.txt", "a")
+f.writelines(["nline1", "nline2", "nline3"])
+f.close()
+
+with open('../parametros/ids.txt', 'r') as arq:
+    palavras = arq.readlines()
+
+    for line in palavras:
+        print(line)
+
+import xml.etree.ElementTree as et
+tree = et.parse('../parametros/ProgramacaoViagem.xml')
+# Grava Id da Viagem em um arquivo de texto
+root = tree.getroot()
+
+teste = tree.find('IdViagem')
+print(teste.text)
+
+for rank in root.iter('IdViagem'):
+    new_rank = '15688'
+    rank.text = str(new_rank)
+
+tree.write('../parametros/ProgramacaoViagem.xml')
+
+teste = tree.find('IdViagem')
+print(teste.text)
 """
-import time
+import requests
+from bs4 import BeautifulSoup
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+response = requests.get('https://g1.globo.com/')
+content = response.content
 
-ie_options = webdriver.IeOptions()
-ie_options.attach_to_edge_chrome = True
-ie_options.edge_executable_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+site = BeautifulSoup(content, 'html.parser')
 
-driver = webdriver.Ie(options=ie_options)
-# driver = webdriver.Ie()
-# driver = webdriver.Edge(executable_path='../bin/msedgedriver.exe')
+#print(site.prettify())
+#Html da noticia
+#noticia = site.find('div', attrs={'feed-post bstn-item-shape type-materia'})
 
-driver.get("https://the-internet.herokuapp.com/windows")
-#identify element
-driver.find_element(By.LINK_TEXT, "Click Here").click()
+noticia = site.find('div', attrs={'feed-post-body'})
+titulo = noticia.find('a', attrs={'feed-post-link'})
+subtitulo = noticia.find('div', attrs={'feed-post-body-resumo'})
 
-#obtain window handle of browser in focus
-p = driver.current_window_handle
-#obtain parent window handle
-parent = driver.window_handles[0]
-#obtain browser tab window
-chld = driver.window_handles[1]
-#switch to browser tab
-driver.switch_to.window(chld)
-print("Page title for browser tab:")
-print(driver.title)
-#close browser tab window
-time.sleep(5)
-driver.close()
-#switch to parent window
-driver.switch_to.window(parent)
-print("Page title for parent window:")
-print(driver.title)
-#close browser parent window
-time.sleep(5)
-driver.close()
+
+print(noticia.text)
+#print(titulo.text)
+#print(subtitulo.text)
+#print('este link veio isso:', noticia.prettify())
+print('')
+#print(titulo.prettify())
+print('')
+print(titulo.text )
+print('')
+print('aqui ', noticia)
+print(content)
+
+
+
+
+
+

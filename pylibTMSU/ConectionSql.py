@@ -4,7 +4,7 @@
 # Autor: Michel Viana
 
 
-from LerProgramacaoViagem import inicio as lpv
+from CarregarXMLProgramacaoViagem import inicio as lpv
 
 import pyodbc
 

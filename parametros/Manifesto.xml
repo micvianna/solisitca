@@ -1,0 +1,12 @@
+<Manifesto>
+    <Tipo>ENTREGA / COLETA</Tipo>
+    <Rota>01</Rota>
+    <Tracao>HJF7473</Tracao>
+    <Reboque>0007027</Reboque>
+    <CpfMotorista>02242272977</CpfMotorista>
+    <NumViagem>125867</NumViagem>
+    <FilalDestino>123</FilalDestino>
+    <FilialRetiraMercadoria>AZUL (GRU) AZUL LINHAS AEREAS B</FilialRetiraMercadoria>
+    <SubTransferencia>AZUL (GRU) AZUL LINHAS AEREAS B</SubTransferencia>
+    <SubEntrega>GOL (MAB) 100</SubEntrega>
+</Manifesto>
