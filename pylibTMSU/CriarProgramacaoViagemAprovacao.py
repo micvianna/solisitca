@@ -21,8 +21,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import Select
 
-from InicializarAmbiente import driver, wait
-from CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
+from pylibTMSU.InicializarAmbiente import driver, wait
+from pylibTMSU.CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
 
 # Constantes criadas
 DRIVER = driver

@@ -19,9 +19,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import Select
-from InicializarAmbiente import driver, wait
-from CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
-from CarregarXMLConexao import CarregarXMLConexao
+from pylibTMSU.InicializarAmbiente import driver, wait
+from pylibTMSU.CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
+from pylibTMSU.CarregarXMLConexao import CarregarXMLConexao, banco_dados
 
 # inserido para futura utilização no campo
 # from datetime import datetime
@@ -31,6 +31,7 @@ from CarregarXMLConexao import CarregarXMLConexao
 # Constante criadas
 DRIVER = driver
 WAIT = wait
+
 
 
 class CarregarProgramacao:
@@ -45,6 +46,7 @@ class CarregarProgramacao:
 
         lpv = CarregarXMLProgramacaoViagem()
         conec = CarregarXMLConexao()
+        self.link = banco_dados()
         self.url = conec.url_ambiente()
         self.tipo = lpv.programacao_viagem_tipo()
         self.rota = lpv.programacao_viagem_rota()
@@ -54,13 +56,13 @@ class CarregarProgramacao:
         self.data_saida = lpv.programacao_viagem_data_saida()
         self.hora_saida = lpv.programacao_viagem_hora_saida()
 
+
     def criar_programacao_viagem(self):
         # Executado via JavaScript um get no endereço "ProgramacaoViagem"
         # Acha o Número do Manivesto e guarda na variavel
 
         try:
             DRIVER.execute_script('window.open();')
-            # DRIVER.execute_script(f"window.open('{self.url}')")
             main_page = DRIVER.current_window_handle
             for handle in DRIVER.window_handles:
                 if handle != main_page:
@@ -68,7 +70,10 @@ class CarregarProgramacao:
                     DRIVER.switch_to.window(prog)
                     DRIVER.maximize_window()
             time.sleep(1)
-            DRIVER.get(f'{self.url}/Femsa.Zeus/ProgramacaoViagem')
+            url = f'{self.url}/Femsa.Zeus/ProgramacaoViagem?cod=613{self.link}'
+            DRIVER.get(url)
+
+            time.sleep(0.5)
         except Exception as e:
             print(e)
             print(f'Erro ao tentar acessar a tela de Programacao Viagem (Novo)'
@@ -97,6 +102,7 @@ class CarregarProgramacao:
             try:
                 #  Informa código do Tipo de Operação
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'Rota'))).click()
+                time.sleep(0.3)
                 DRIVER.find_element(By.ID, 'Rota').send_keys(self.rota)
                 time.sleep(0.5)
                 DRIVER.find_element(By.ID, 'Rota').send_keys(Keys.ARROW_DOWN)
@@ -111,7 +117,9 @@ class CarregarProgramacao:
             try:
                 #  Informa Data de Saída
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'DataSaida'))).click()
+                time.sleep(0.2)
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'DataSaida'))).clear()
+                time.sleep(0.2)
                 WAIT.until(ec.element_to_be_clickable(
                         (By.ID, 'DataSaida'))).send_keys(self.data_saida)
             except Exception as e:
@@ -122,7 +130,9 @@ class CarregarProgramacao:
             try:
                 #  Informa Hora de Saída
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'HoraSaida'))).click()
+                time.sleep(0.2)
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'HoraSaida'))).clear()
+                time.sleep(0.2)
                 WAIT.until(ec.element_to_be_clickable(
                     (By.ID, 'HoraSaida'))).send_keys(self.hora_saida)
             except Exception as e:
@@ -212,7 +222,6 @@ class CarregarProgramacao:
 
             # finaliza a criação da Programação de Viagem
             try:
-
                 WAIT.until(ec.element_to_be_clickable((By.ID, 'btnIncluir'))).click()
                 time.sleep(5)
 

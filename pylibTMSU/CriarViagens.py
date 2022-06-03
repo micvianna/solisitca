@@ -16,10 +16,8 @@ import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
-
-
-from InicializarAmbiente import driver, wait
-from CarregarXMLConexao import CarregarXMLConexao
+from pylibTMSU.InicializarAmbiente import driver, wait
+from pylibTMSU.CarregarXMLConexao import CarregarXMLConexao, banco_dados
 import xml.etree.ElementTree as et
 
 # Constante criadas
@@ -34,6 +32,7 @@ class AcessarTelaViagens:
     def __init__(self):
         conec = CarregarXMLConexao()
         self.url = conec.url_ambiente()
+        self.link = banco_dados()
 
     def carrega_tela_viagens(self):
         # print('Criação da Viagem, vai ser buscada a Programação de Viagem e vai ser gerado um ID')
@@ -55,7 +54,7 @@ class AcessarTelaViagens:
             time.sleep(0.3)
             # Acessa o menu
             # Acessa a tela de viagem com parte do varivel "self.url" mais complemento
-            DRIVER.get(f'{self.url}/NewSitex/Paginas/Operacoes/Viagens/Viagens.aspx')
+            DRIVER.get(f'{self.url}/NewSitex/Paginas/Operacoes/Viagens/Viagens.aspx?{self.link}')
             # clique no Anexar
             time.sleep(3)
             # clica no rodapé e clica no clipe
@@ -130,6 +129,7 @@ class AcessarTelaViagens:
                     clique = handle
                     # Alterna para a janela
                     driver.switch_to.window(clique)
+                    time.sleep(1)
             numero_viagem = WAIT.until(ec.element_to_be_clickable((By.ID, "lblNrViagem")))
             numero_viagem.click()
             time.sleep(3)

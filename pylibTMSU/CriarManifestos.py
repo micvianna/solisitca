@@ -11,16 +11,14 @@ Historico: 19/05/2022: Reorganizados impports
 """
 
 import random
-import sys
 import time
 
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.select import Select
-from CarregarXMLManifesto import CarregarXMLManifesto
-from CarregarXMLConexao import CarregarXMLConexao
-from InicializarAmbiente import driver, wait
+from pylibTMSU.CarregarXMLManifesto import CarregarXMLManifesto
+from pylibTMSU.CarregarXMLConexao import CarregarXMLConexao, banco_dados
+from pylibTMSU.InicializarAmbiente import driver, wait
 
 # Constantes criadas
 DRIVER = driver
@@ -33,23 +31,27 @@ class GerarManifesto:
     def __init__(self):
 
         # variaveis de chamada de classe
-
-        self.url = CarregarXMLConexao.url_ambiente
-        self.rota = CarregarXMLManifesto.rota_manifesto
-        self.tipo = CarregarXMLManifesto.tipo_manifesto
-        self.tracao = CarregarXMLManifesto.tracao_manifesto
-        self.reboque = CarregarXMLManifesto.reboque_manifesto
-        self.motorista = CarregarXMLManifesto.cpf_motorista_manifesto
-        self.num_viagem = CarregarXMLManifesto.num_viagem
-        self.sub_entrega = CarregarXMLManifesto.sub_entrega
-        self.filial_mercadoria = CarregarXMLManifesto.filial_retira_mercadoria
-        self.filial_destino = CarregarXMLManifesto.filial_manifesto
-        self.sub_transferencia = CarregarXMLManifesto.sub_transferencia
+        carrega_xml = CarregarXMLManifesto()
+        conec = CarregarXMLConexao()
+        self.link = banco_dados()
+        self.url = conec.url_ambiente()
+        self.rota = carrega_xml.rota_manifesto
+        self.tipo = carrega_xml.tipo_manifesto
+        self.tracao = carrega_xml.tracao_manifesto
+        self.reboque = carrega_xml.reboque_manifesto
+        self.motorista = carrega_xml.cpf_motorista_manifesto
+        self.num_viagem = carrega_xml.num_viagem
+        self.sub_entrega = carrega_xml.sub_entrega
+        self.filial_mercadoria = carrega_xml.filial_retira_mercadoria
+        self.filial_destino = carrega_xml.filial_manifesto
+        self.sub_transferencia = carrega_xml.sub_transferencia
         # Variaveis usadas para inserção de hora e minuto
         self.hora_s = str(random.randint(0, 1))
         self.minuto_s = str(random.randint(0, 59))
         self.horas_c = str(random.randint(1, 2))
         self.minuto_c = str(random.randint(0, 59))
+
+        # Variaveis da base de dados
 
     def carrega_tela_manifesto(self):
 
@@ -60,31 +62,18 @@ class GerarManifesto:
             self.minuto_c = '4'
         else:
             pass
-
         try:
             # Acessa a tela Manifesto
-            time.sleep(1.5)
-            acao = ActionChains(DRIVER)
-            DRIVER.find_element(By.ID, 'EJCabecalho1_EJMenu1__skmMenu-menuItem002').click()
-            time.sleep(1)
-            submenu = WAIT.until(
-                ec.element_to_be_clickable(
-                    (By.ID, 'EJCabecalho1_EJMenu1__skmMenu-menuItem002-subMenu-menuItem014')))
-            acao.click(submenu).perform()
-            # DRIVER.switch_to.window(DRIVER.window_handles[0])
-            DRIVER.switch_to.frame('Teste')
-            time.sleep(1)
-            # tentativa de acessa a tela de manifesto com o link
-            # DRIVER.execute_script("window.open('/NewSitex/Paginas/Operacoes/Manifestos.aspx');")
-            # DRIVER.execute_script('window.location.href = "http://nshm0001.expresso.corp/Paginas/Operacoes/Manifestos.aspx" ;')
-            # DRIVER.get(f'{self.url}Paginas/Operacoes/Manifestos.aspx')
+            # Acesso para tela de Manifesto o link
+            url = f'{self.url}/NewSitex/Paginas/Operacoes/Manifestos.aspx?cod=94{self.link}'
+            DRIVER.get(url)
             time.sleep(0.5)
         except Exception as e:
             print(f'Erro ao tentar acessar a tela de Manifesto'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
 
         # Verifica se existe numero da viagem o tipo é igual ENTREGA / COLETA
-        if self.num_viagem != '' and self.tipo == 'ENTREGA / COLETA':
+        if self.num_viagem != '' and self.num_viagem != '0' and self.tipo == 'ENTREGA / COLETA':
             try:
                 # DRIVER.switch_to.window(DRIVER.window_handles[1])
                 # DRIVER.switch_to.frame('Teste')
@@ -178,17 +167,7 @@ class GerarManifesto:
 
         # Então Se numero da viagem ser diferende
         # vazio ou numero da viagem ser vazio e tipo diferente 'ENTREGA / COLETA'
-        elif self.num_viagem != '' or self.num_viagem == '' and self.tipo != 'ENTREGA / COLETA':
-            # emite alerta no Browser atraves de scrpit
-            DRIVER.execute_script(
-                'alert("O Tipo escolhido é diferente de ENTREGA / COLETA, Verificar o XML Manifeto");')
-            time.sleep(3)
-            #DRIVER.quit()
-            #sys.exit()
 
-        # ############################
-        # Não contem número da viagem
-        # ############################
         else:
             try:
                 # Clica no raio
@@ -276,14 +255,16 @@ class GerarManifesto:
             except Exception as e:
                 print(f'Erro ao incluir dados')
                 print(e.__doc__)
+
             try:
                 # Volta para a Page Main
                 DRIVER.switch_to.window(atual[0])
                 # Alterna para o frame
-                DRIVER.switch_to.frame('Teste')
+                # DRIVER.switch_to.frame('Teste')
             except Exception as e:
                 print(f'Erro ao mudar de tela')
                 print(e.__doc__)
+
             # verifica se o botão está visivel na tela
             # Se Sim, clica no label do número do manifesto
             if WAIT.until(ec.element_to_be_clickable((By.ID, 'EJRodapeManifesto_ibtnIncluir'))).is_displayed():
@@ -347,16 +328,22 @@ class GerarManifesto:
                     print(f'Erro ao tentar escolher Filial de Retira de Mercadoria'
                           f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
                 try:
-                    # insere a Filial de destino
-                    if self.filial_destino == '':
-                        # se variavel está vazia no arquivo Manifesto.xml passa
-                        pass
+                    if WAIT.until(ec.element_located_to_be_selected((By.ID, 'ddlFiliaisDestino'))).is_displayed():
+                        time.sleep(2)
+                        print('sim')
+                        # insere a Filial de destino
+                        if self.filial_destino == '' and self.filial_destino == '0':
+                            # se variavel está vazia no arquivo Manifesto.xml passa
+                            pass
+                        else:
+                            # se não, será selecionado conforme o valor que está no XML Manifesto
+                            WAIT.until(ec.element_to_be_clickable((By.ID, 'ddlFiliaisDestino')))
+                            select = Select(DRIVER.find_element(By.ID, 'ddlFiliaisDestino'))
+                            # O valor da Filial de Destino é pego no XML Manifesto
+                            select.select_by_visible_text(self.filial_destino)
                     else:
-                        # se não, será selecionado conforme o valor que está no XML Manifesto
-                        WAIT.until(ec.element_to_be_clickable((By.ID, 'ddlFiliaisDestino')))
-                        select = Select(DRIVER.find_element(By.ID, 'ddlFiliaisDestino'))
-                        # O valor da Filial de Destino é pego no XML Manifesto
-                        select.select_by_visible_text(self.filial_destino)
+                        print('não')
+                        pass
                 except Exception as e:
                     print(f'Erro ao tentar escolher Filial de Destino'
                           f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -376,3 +363,17 @@ class GerarManifesto:
 
 
 sub = GerarManifesto()
+
+"""
+   elif self.num_viagem != '' or self.num_viagem == '' and self.tipo != 'ENTREGA / COLETA':
+       # emite alerta no Browser atraves de scrpit
+       DRIVER.execute_script(
+           'alert("O Tipo escolhido é diferente de ENTREGA / COLETA, Verificar o XML Manifeto");')
+       time.sleep(3)
+       #DRIVER.quit()
+       #sys.exit()
+
+   # ############################
+   # Não contem número da viagem
+   # ############################
+   """

@@ -24,7 +24,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
-from CarregarXMLConexao import CarregarXMLConexao
+from pylibTMSU.CarregarXMLConexao import CarregarXMLConexao, banco_dados
 
 """
 ---- Chamada do Browser na variavel 'driver' ------
@@ -51,6 +51,7 @@ class LoginIn:
         xml = CarregarXMLConexao()
         self.driver = driver
         self.url = xml.url_ambiente()
+        self.link = banco_dados()
         self.usuario = xml.usuario_login()
         self.password = xml.password_login()
         self.filial = xml.filial_login()
@@ -61,11 +62,10 @@ class LoginIn:
         pegando a url(self.url) que está no xml
         """
         try:
-            # url = f'http://nsac0001.expresso.corp/NewSitex/Login.aspx'
             # Maximila o driver
             driver.maximize_window()
             # acessa a url
-            driver.get(f'{self.url}NewSitex/Login.aspx')
+            driver.get(f'{self.url}/NewSitex/Login.aspx')
             # aguarda em milesimos
             time.sleep(1.5)
         except Exception as e:
@@ -111,35 +111,23 @@ class LoginIn:
         a aba onde driver vai achar o botão sair
         """
         try:
-            # Alterna para a janela principal
-            driver.switch_to.window(driver.window_handles[0])
-            # Alterna para o frame
-            driver.switch_to.parent_frame()
-            # verifica se o menu está visivel
-            menu = wait.until(ec.all_of(By.CSS_SELECTOR, '#EJCabecalho1_EJMenu1__skmMenu'))
-            if menu.is_displayed():
-                if driver.find_element(By.CSS_SELECTOR, '#EJCabecalho1_EJMenu1__skmMenu').is_displayed():
-                    print('Fazendo Logoff')
-                    time.sleep(1)
-                    acao = ActionChains(driver)
-                    driver.find_element(By.CSS_SELECTOR, '#EJCabecalho1_EJMenu1__skmMenu')
-                    time.sleep(1)
-                    submenu = wait.until(
-                        ec.element_to_be_clickable(
-                            (By.ID, 'EJCabecalho1_EJMenu1__skmMenu-menuItem009')))
-                    acao.click(submenu).perform()
-                    time.sleep(2)
-                    # driver.switch_to.frame('Teste')
-                    Alert(driver).accept()
-                    time.sleep(0.2)
-                    Alert(driver).accept()
+            link_logoff = f'{self.url}/NewSitex/Paginas/LogOff.aspx?cod=257{self.link}'
+            main_page = driver.current_window_handle
+            widows = driver.window_handles
+            for handle in widows:
+                if handle != main_page:
+                    logoff = handle
+                    # Alterna para a janela
+                    driver.switch_to.window(logoff)
+                    driver.get(link_logoff)
                     time.sleep(0.5)
-                    time.sleep(1)
+                    Alert(driver).accept()
+                    driver.switch_to.window(widows[1])
+                    driver.close()
                 else:
-                    print('Não fez logoff corretamente')
-                    driver.quit()
-            else:
-                pass
+                    driver.get(link_logoff)
+                    time.sleep(0.5)
+                    Alert(driver).accept()
         except Exception as e:
             print(f'Logoff não realizado'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
@@ -149,7 +137,13 @@ class LoginIn:
         """
         fecha o browser
         """
+        driver.execute_script('window.alert("O Browser será fechado");')
+        time.sleep(2)
+        Alert(driver).accept()
+        time.sleep(2)
         driver.quit()
+        sys.exit()
+
 
 
 """

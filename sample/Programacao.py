@@ -11,23 +11,25 @@ Historico: 20/04/2022: Reorganizados imports
 """
 
 import sys
+import time
 
 from pylibTMSU.InicializarAmbiente import inicia
-from pylibTMSU.ProgramacaoViagem import programacao
+from pylibTMSU.CriarProgramacaoViagem import programacao
+from pylibTMSU.CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
 
 # Função criada fazendo chamada da classe com a função interna
 
-try:
-    def criar_programacao_viagem():
-        inicia.abrir_browser()
-        inicia.realizar_login()
-        programacao.criar_programacao_viagem()
-        programacao.criar_programacao()
-except Exception as e:
-    print(f'Não foi possivel executar esse script -> Programacao.py!'
-          f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
-    sys.exit()
+
+inicia.abrir_browser()
+inicia.realizar_login('401')
+#CarregarXMLProgramacaoViagem.acesso('test.xml')
+programacao.criar_programacao_viagem()
+programacao.criar_programacao()
+time.sleep(3)
+inicia.realizar_logoff()
+time.sleep(3)
+inicia.fechar_browser()
 
 
-criar_programacao_viagem()
+
 

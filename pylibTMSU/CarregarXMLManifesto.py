@@ -33,7 +33,7 @@ class CarregarXMLManifesto:
     def __init__(self):
         # XML Manifesto
         self.tipo_manifesto = bs_mani.find('Tipo').text
-        self.rota_manifesto = bs_mani.find('Rota').text
+        self.rota_manifesto = bs_mani.find('Rota').getText()
         self.tracao_manifesto = bs_mani.find('Tracao').text
         self.reboque_manifesto = bs_mani.find('Reboque').text
         self.cpf_motorista_manifesto = bs_mani.find('CpfMotorista').text
@@ -42,6 +42,7 @@ class CarregarXMLManifesto:
         self.filial_retira_mercadoria = bs_mani.find('FilialRetiraMercadoria').text
         self.sub_transferencia = bs_mani.find('SubTransferencia').text
         self.sub_entrega = bs_mani.find('SubEntrega').text
+        self.filial_manifesto = bs_mani.find('FilalDestino').text
 
     def tipo_manifesto(self):
         # Faz a chamada da tag "CpfMotorista" no XML Manifesto
@@ -89,3 +90,5 @@ class CarregarXMLManifesto:
 
 
 manifesto_xml = CarregarXMLManifesto()
+
+

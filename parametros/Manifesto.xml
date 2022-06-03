@@ -1,12 +1,20 @@
 <Manifesto>
     <Tipo>ENTREGA / COLETA</Tipo>
     <Rota>01</Rota>
-    <Tracao>HJF7473</Tracao>
-    <Reboque>0007027</Reboque>
-    <CpfMotorista>02242272977</CpfMotorista>
-    <NumViagem>125867</NumViagem>
-    <FilalDestino>123</FilalDestino>
-    <FilialRetiraMercadoria>AZUL (GRU) AZUL LINHAS AEREAS B</FilialRetiraMercadoria>
+    <Tracao>GYS2952</Tracao>
+    <Reboque>0007021</Reboque>
+    <CpfMotorista>46874259091</CpfMotorista>
+    <NumViagem>125879</NumViagem>
+    <FilalDestino></FilalDestino>
+    <FilialRetiraMercadoria>GOI - FLB - GOIANIA INTERIOR</FilialRetiraMercadoria>
     <SubTransferencia>AZUL (GRU) AZUL LINHAS AEREAS B</SubTransferencia>
     <SubEntrega>GOL (MAB) 100</SubEntrega>
+    <SaidaPrevista>28/04/2022</SaidaPrevista>
+    <Hora>08:00</Hora>
+    <KmInicialTracao></KmInicialTracao >
+    <QtEixosTracao></QtEixosTracao >
+    <ChegadaPrevista>28/04/2022</ChegadaPrevista>
+    <Hora> 09:00</Hora>
+    <KmInicialTracao></ KmInicialTracao >
+    <QtEixosTracao></ QtEixosTracao >
 </Manifesto>

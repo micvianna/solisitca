@@ -17,8 +17,6 @@ Histórico: 11/04/2022: criação das funções para leitura do arquivo XML
 from bs4 import BeautifulSoup
 
 
-
-
 class CarregarXMLProgramacaoViagem:
 
 
@@ -74,3 +72,20 @@ class CarregarXMLProgramacaoViagem:
 programacao_viagem_xml = CarregarXMLProgramacaoViagem()
 
 
+"""
+def read_text_file(file_path):
+    with open(file_path, 'r') as f:
+        f.read()
+
+    for file in os.listdir():
+        if file.endswith(".xml"):
+            if file.title() != 'Programacaoviagem.Xml':
+                print(file.title())
+            else:
+                pass
+        else:
+        # file_path = f"{path}\{file}"
+            pass
+            # read_text_file(file_path)
+
+"""
