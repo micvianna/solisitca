@@ -43,39 +43,34 @@ class GerarJusBloqSubContratada:
             print(f'Erro ao tentar inserir justificativa'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
         try:
-            if self.complemento != '' or self.complemento != 'N':
-                isChecked = DRIVER.find_element(By.ID, 'EhComplementoObrigatorio').is_selected()
-                if isChecked is False:
-                    print('Checkbox already selected')
-                    if WAIT.until(ec.element_to_be_clickable((By.ID, 'EhComplementoObrigatorio'))).is_displayed():
-                        WAIT.until(ec.element_to_be_clickable((By.ID, 'EhComplementoObrigatorio'))).click()
-
-                else:
-                    # DRIVER.find_element(By.ID, 'EhComplementoObrigatorio').click()
-                    print("Element is not a checkbox")
-
-            else:
+            if self.complemento == '' or self.complemento != 'N':
                 pass
+            else:
+                complemento_obr = DRIVER.find_element(By.XPATH, '//*[@id="frm"]/div/div[2]/label/span')
+                DRIVER.execute_script("arguments[0].click();", complemento_obr)
+                time.sleep(0.3)
         except Exception as e:
             print(f'Erro ao selecionar "Complemento Obrigatorio"'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
         try:
-            if self.excluido != '':
-                DRIVER.find_element(By.ID, 'EhExcluido').click()
-            else:
+            if self.excluido == '' or self.excluido != 'N':
                 pass
+            else:
+                excluido = DRIVER.find_element(By.XPATH, '//*[@id="frm"]/div/div[3]/label/span')
+                DRIVER.execute_script("arguments[0].click();", excluido)
+                time.sleep(0.3)
         except Exception as e:
             print(f'Erro ao selecionar "Excluido"'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
 
         try:
-            #WAIT.until(ec.element_to_be_clickable((By.ID, 'btnSalvar'))).click()
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'btnSalvar'))).click()
             time.sleep(0.5)
         except Exception as e:
             print(f'Erro ao clicar no botão Salvar'
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
         try:
-            #WAIT.until(ec.element_to_be_clickable((By.ID, 'btnConfirmarAcao'))).click()
+            WAIT.until(ec.element_to_be_clickable((By.ID, 'btnConfirmarAcao'))).click()
             time.sleep(0.5)
         except Exception as e:
             print(f'Erro ao clicar no botão de confirmação'
@@ -93,7 +88,7 @@ class GerarJusBloqSubContratada:
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaValue_1'))).click()
             time.sleep(0.5)
             WAIT.until(ec.element_to_be_clickable(
-                (By.ID, 'ContainerConsultaValue_1'))).send_keys('Justicativa Automatica')
+                (By.ID, 'ContainerConsultaValue_1'))).send_keys(self.descricao)
             time.sleep(0.2)
             WAIT.until(ec.element_to_be_clickable((By.ID, 'ContainerConsultaSearch_1'))).click()
         except Exception as e:
