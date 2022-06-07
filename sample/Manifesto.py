@@ -8,9 +8,9 @@ from pylibTMSU.CriarManifestos import sub
 
 
 inicia.abrir_browser()
-inicia.realizar_login()
+inicia.efetuar_login()
 sub.carrega_tela_manifesto()
-inicia.realizar_logoff()
+inicia.efetuar_logoff()
 inicia.fechar_browser()
 
 

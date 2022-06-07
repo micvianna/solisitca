@@ -21,12 +21,12 @@ from pylibTMSU.CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
 
 
 inicia.abrir_browser()
-inicia.realizar_login('401')
+inicia.efetuar_login('401')
 #CarregarXMLProgramacaoViagem.acesso('test.xml')
 programacao.criar_programacao_viagem()
 programacao.criar_programacao()
 time.sleep(3)
-inicia.realizar_logoff()
+inicia.efetuar_logoff()
 time.sleep(3)
 inicia.fechar_browser()
 
