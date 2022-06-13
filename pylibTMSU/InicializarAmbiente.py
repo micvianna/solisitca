@@ -1,7 +1,7 @@
 """
 Objetivo: Criar um login para o usuário, extraindo
           motorista, reboque e tração
-Dependências: Framework Selenium 4, pylibTMSU.LerProgramacaoViagem
+Dependências: Framework Selenium 4, pylibTMSU.CarregaXMLProgaramacaoViagem
 Responsavel: Michel Viana
 
 Histórico: 12/04/2022: Desenvolvido chamada do Browser e a realização de login
@@ -10,6 +10,16 @@ Histórico: 12/04/2022: Desenvolvido chamada do Browser e a realização de logi
            20/04/2022: Adicionado mensagens de tratamento quando houver erros
                        Inserida classe FinalizandoAmbiente
            17/05/2022: Atualizada a função: efetuar_logoff
+           07/06/2022: Alterada a nomeclatura da classe e das funções:
+
+                        Class:
+                        CarregarAmbiente = CarregarAmbiente
+
+                        functions
+                        abrirAmbiente = abrirAmbiente
+                        efetuarLogin = efetuarLogin
+                        efetuarLogoff = efetuarLogoff
+                        fecharAmbiente = fecharAmbiente
 
 """
 
@@ -41,9 +51,9 @@ Microsoft Edge
 # onde foi importado um modulo
 
 
-class LoginIn:
+class CarregarAmbiente:
     """
-    Criada class para realizar abertura de browser e login
+    Criada class para realizar a chamadad do browser e realizar login
     """
 
     def __init__(self):
@@ -56,7 +66,7 @@ class LoginIn:
         self.password = xml.password_login()
         self.filial = xml.filial_login()
 
-    def abrir_browser(self):
+    def abrirAmbiente(self):
         """
         Abre o browser e está determinando o tamanho deste
         pegando a url(self.url) que está no xml
@@ -73,7 +83,7 @@ class LoginIn:
                   f' Ocorreu algo inesperdado -----> {str(e.__doc__)}')
             # sys.exit()
 
-    def realizar_login(self, filial=''):
+    def efetuarLogin(self, filial=''):
         """
         Função criada para logar no TMSU
         usuario: nome do usuario é passado por parametro indicado quando a função é invocada
@@ -105,7 +115,7 @@ class LoginIn:
             # driver.close()
             # sys.exit()
 
-    def realizar_logoff(self):
+    def efetuarLogoff(self):
         """
         Quando está em outra aba no TMSU é trocada para
         a aba onde driver vai achar o botão sair
@@ -123,6 +133,7 @@ class LoginIn:
                     time.sleep(0.5)
                     Alert(driver).accept()
                     driver.switch_to.window(widows[1])
+
                     driver.close()
                 else:
                     driver.get(link_logoff)
@@ -133,7 +144,7 @@ class LoginIn:
                   f'\nOcorreu algo inesperdado -----> {str(e.__doc__)}')
             # sys.exit()
 
-    def fechar_browser(self):
+    def fecharAmbiente(self):
         """
         fecha o browser
         """
@@ -162,5 +173,5 @@ ieOptions.add_additional_option("ie.edgepath", 'C:\\Program Files (x86)\\Microso
 # driver = webdriver.Ie(executable_path=r'../bin/IEDriverServer.exe', options=ieOptions)
 driver = webdriver.Edge(executable_path="../bin/msedgedriver.exe")
 wait = WebDriverWait(driver, 15, poll_frequency=0.5)
-inicia = LoginIn()
+inicia = CarregarAmbiente()
 

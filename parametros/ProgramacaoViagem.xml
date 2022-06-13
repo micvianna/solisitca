@@ -1,12 +1,11 @@
 <ProgramacaoViagem>
-    <Tipo>TRANSFERENCIA</Tipo>
-    <!--Tipo>ENTREGA DIRETA</Tipo-->
-    <!-- Tipo>ENTREGA / COLETA</Tipo-->
+    <!--Tipo>TRANSFERENCIA</Tipo-->
+    <Tipo>ENTREGA DIRETA</Tipo>
     <Rota>JDIRIO01</Rota>
-    <Tracao>HBN8651</Tracao>
-    <Reboque1>0007009</Reboque1>
+    <Tracao>GYS2948</Tracao>
+    <Reboque1>0007028</Reboque1>
     <Reboque2>0</Reboque2>
-    <CpfMotorista>38077833691</CpfMotorista>
-    <DataSaida>01/06/2022</DataSaida>
+    <CpfMotorista>45724466791</CpfMotorista>
+    <DataSaida>13/06/2022</DataSaida>
     <HoraSaida>22:00</HoraSaida>
 </ProgramacaoViagem>

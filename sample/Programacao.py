@@ -20,15 +20,15 @@ from pylibTMSU.CarregarXMLProgramacaoViagem import CarregarXMLProgramacaoViagem
 # Função criada fazendo chamada da classe com a função interna
 
 
-inicia.abrir_browser()
-inicia.efetuar_login('401')
+inicia.abrirAmbiente()
+inicia.efetuarLogin()
 #CarregarXMLProgramacaoViagem.acesso('test.xml')
 programacao.criar_programacao_viagem()
 programacao.criar_programacao()
 time.sleep(3)
-inicia.efetuar_logoff()
+inicia.efetuarLogoff()
 time.sleep(3)
-inicia.fechar_browser()
+inicia.fecharAmbiente()
 
 
 

@@ -1,6 +1,18 @@
+import time
+
 from pylibTMSU.InicializarAmbiente import inicia
 from pylibTMSU.CriarViagens import viagem
-inicia.abrir_browser()
-inicia.efetuar_login()
-viagem.carrega_tela_viagens()
+
+
+inicia.abrirAmbiente()
+inicia.efetuarLogin()
+viagem.programcaoViagem()
+viagem.criarProgramcaoViagem()
+viagem.aprovarProgramcaoViagem()
+viagem.criarViagem()
+viagem.criarManifesto()
+time.sleep(5.0)
+# inicia.efetuarLogoff()
+# inicia.fecharAmbiente()
+
 

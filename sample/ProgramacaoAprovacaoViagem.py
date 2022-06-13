@@ -7,16 +7,16 @@ from pylibTMSU.CriarViagens import viagem
 from pylibTMSU.InicializarAmbiente import inicia
 from pylibTMSU.CriarManifestos import sub
 
-inicia.abrir_browser()
-inicia.efetuar_login()
+inicia.abrirAmbiente()
+inicia.efetuarLogin()
 programacao.criar_programacao_viagem()
 programacao.criar_programacao()
 aprova.realizar_pesquisa_confirma()
 viagem.carrega_tela_viagens()
 time.sleep(1)
-inicia.fechar_browser()
+inicia.fecharAmbiente()
 time.sleep(2)
-inicia.abrir_browser()
-inicia.efetuar_login('401')
+inicia.abrirAmbiente()
+inicia.efetuarLogin('401')
 sub.carrega_tela_manifesto()
 

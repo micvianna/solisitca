@@ -3,10 +3,10 @@ import time
 from pylibTMSU.InicializarAmbiente import inicia
 
 
-inicia.abrir_browser()
-inicia.efetuar_login('402')
+inicia.abrirAmbiente()
+inicia.efetuarLogin('403')
 time.sleep(3)
-inicia.efetuar_logoff()
+inicia.efetuarLogoff()
 time.sleep(3)
-inicia.fechar_browser()
+inicia.fecharAmbiente()
 

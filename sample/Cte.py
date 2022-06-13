@@ -2,6 +2,6 @@
 
 from pylibTMSU.InicializarAmbiente import inicia
 from pylibTMSU.CriarCteComplementar import cte
-inicia.abrir_browser()
-inicia.efetuar_login()
+inicia.abrirAmbiente()
+inicia.efetuarLogin()
 cte.carrega_tela_cte()
